@@ -1,0 +1,22 @@
+---
+- name: configure apt http proxy
+  lineinfile:
+    dest: /etc/apt/apt.conf
+    regexp: '^Acquire::http::Proxy'
+    line: 'Acquire::http::Proxy "{{ proxy_env.http_proxy }}";'
+    create: yes
+  when:
+    - proxy_env is defined
+    - proxy_env.http_proxy is defined
+    - proxy_env.http_proxy != ''
+
+- name: configure apt https proxy
+  lineinfile:
+    dest: /etc/apt/apt.conf
+    regexp: '^Acquire::https::Proxy'
+    line: 'Acquire::https::Proxy "{{ proxy_env.https_proxy }}";'
+    create: yes
+  when:
+    - proxy_env is defined
+    - proxy_env.https_proxy is defined
+    - proxy_env.https_proxy != ''
